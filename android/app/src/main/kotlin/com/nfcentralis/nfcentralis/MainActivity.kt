@@ -1,0 +1,6 @@
+package com.nfcentralis.nfcentralis
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}
