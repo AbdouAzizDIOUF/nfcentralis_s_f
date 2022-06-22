@@ -13,7 +13,7 @@ class SideMenu extends StatelessWidget {
       children: [
         DrawerHeader(child: Image.asset("assets/logo/logo_NFC_hor.png")),
         DrawerListTile(
-          title: "Dashboard",
+          title: "Tableau de bord",
           svgSrc: "assets/icons/dashboard.svg",
           press: () {},
         ),
@@ -23,12 +23,12 @@ class SideMenu extends StatelessWidget {
           press: () {},
         ),
         DrawerListTile(
-          title: "Employés",
+          title: "Employé(e)s",
           svgSrc: "assets/icons/members.svg",
           press: () {},
         ),
         DrawerListTile(
-          title: "Help",
+          title: "Aide",
           svgSrc: "assets/icons/help.svg",
           press: () {},
         ),

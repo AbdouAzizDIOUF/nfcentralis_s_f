@@ -40,6 +40,9 @@ dependencies:
   dependencies:
   google_fonts: ^3.0.1
   flutter_svg: ^1.1.0
+  fluttertoast: ^8.0.9
+  flutter_native_splash: ^2.2.3+1
+  loading_animation_widget: ^1.2.0+2
 
 dev_dependencies:
   flutter_test:
@@ -58,6 +61,9 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+flutter_native_splash:
+  color: "#192028"
+  image: "assets/logo/logo_NFC.png"
 
 # The following section is specific to Flutter.
 flutter:
