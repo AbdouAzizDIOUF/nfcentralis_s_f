@@ -98,12 +98,16 @@ public class NFCentralisImpl implements IInitNFCentralis
 
         roleRepository.save(role);
 
-
-
     }
 
     @Override
     public void initUtilisateurOrderers() {
+        Set<Role> roles = new HashSet<>();
+
+        Role userRole = roleRepository.findByName(ERole.ROLE_TRAVAILLEUR)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(userRole);
+
         ordererRepository.findAll().forEach(orderer -> {
             for (int i=0; i<5; i++){
                 Faker faker = new Faker(new Locale("fr-FR"));
@@ -114,6 +118,7 @@ public class NFCentralisImpl implements IInitNFCentralis
                 utilisateur.setPassword(encoder.encode("passer2022"));
                 utilisateur.setMobile(faker.phoneNumber().phoneNumber());
                 utilisateur.setUserName(faker.name().username());
+                utilisateur.setRoles(roles);
                 utilisateur.setCompany(orderer);
                 utilisateurRepository.save(utilisateur);
             }
@@ -127,6 +132,9 @@ public class NFCentralisImpl implements IInitNFCentralis
         /*Role adminRole = roleRepository.findByName(ERole.RO)
         roles.add(adminRole);*/
 
+        Role userRole = roleRepository.findByName(ERole.ROLE_TRAVAILLEUR)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(userRole);
         providerRepository.findAll().forEach(provider -> {
             for (int i=0; i<5; i++){
                 Faker faker = new Faker(new Locale("fr-FR"));
@@ -137,7 +145,7 @@ public class NFCentralisImpl implements IInitNFCentralis
                 utilisateur.setMobile(faker.phoneNumber().phoneNumber());
                 utilisateur.setUserName(faker.name().username());
                 utilisateur.setPassword(encoder.encode("passer2022"));
-               // utilisateur.setRoles(roles);
+                utilisateur.setRoles(roles);
                 utilisateur.setCompany(provider);
                 utilisateurRepository.save(utilisateur);
             }
