@@ -1,23 +1,21 @@
-class Client {
+class Compagnie {
   int? id;
   String? adress;
   String? city;
   String? email;
-  String? logo;
   String? name;
   int? phone;
   String? zipcode;
   bool? completed;
 
 
-  Client({required this.id, required this.adress, required this.city, required this.email, required this.logo, required this.name, required this.phone, required this.zipcode, required this.completed});
+  Compagnie({required this.id, required this.adress, required this.city, required this.email, required this.name, required this.phone, required this.zipcode, required this.completed});
 
-  Client.fromJson(Map<String, dynamic> json) {
+  Compagnie.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     adress = json['adress'];
     city = json['city'];
     email = json['email'];
-    logo = json['logo'];
     name = json['name'];
     phone = json['phone'];
     zipcode = json['zipcode'];
@@ -31,7 +29,6 @@ class Client {
     data['adress'] = this.adress.toString();
     data['city'] = this.city.toString();
     data['email'] = this.email.toString();
-    data['logo'] = this.logo.toString();
     data['name'] = this.name.toString();
     data['phone'] = this.phone.toString();
     data['zipcode'] = this.zipcode.toString();
