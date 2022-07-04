@@ -10,17 +10,6 @@ class LoginScreenImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Text(
-          "CONNEXION",
-          style: TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.white54, fontSize: 16),
-        ),
-        const Divider(
-          color: Colors.white54,
-          height: 20,
-          indent: 50,
-          endIndent: 50,
-        ),
         Row(
           children: [
             Expanded(

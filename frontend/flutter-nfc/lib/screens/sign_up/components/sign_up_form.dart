@@ -4,8 +4,6 @@ import 'package:nfcentralis/components/rounded_button.dart';
 import 'package:nfcentralis/components/rounded_input_field.dart';
 import 'package:nfcentralis/components/rounded_password_field.dart';
 import 'package:nfcentralis/constants.dart';
-import 'package:nfcentralis/screens/login/login_screen.dart';
-import 'package:nfcentralis/screens/main/main_screen.dart';
 import 'package:nfcentralis/size_config.dart';
 
 class SignUpForm extends StatefulWidget {
@@ -16,7 +14,7 @@ class SignUpForm extends StatefulWidget {
 }
 
 class SignUpFormState extends State<SignUpForm> {
-  final _formKey = GlobalKey<FormState>();
+  final _formKeySignUp = GlobalKey<FormState>();
   String? email,
       password,
       confirmPassword,
@@ -30,7 +28,7 @@ class SignUpFormState extends State<SignUpForm> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Form(
-      key: _formKey,
+      key: _formKeySignUp,
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -170,21 +168,16 @@ class SignUpFormState extends State<SignUpForm> {
             RoundedButton(
                 text: "INSCRIPTION",
                 press: () async {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return const MainScreen();
-                    }));
+                  if (_formKeySignUp.currentState!.validate()) {
+                    _formKeySignUp.currentState!.save();
+                    Navigator.pushReplacementNamed(context, '/dashboard');
                   }
                 }),
             AlreadyHaveAnAccountCheck(
               login: false,
               press: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const LoginScreen();
-                }));
-              }, // Navigator.pushReplacement quand y'aura le login et l'inscription de valide.
+                Navigator.pushNamed(context, '/login');
+              },
             ),
           ]),
     );

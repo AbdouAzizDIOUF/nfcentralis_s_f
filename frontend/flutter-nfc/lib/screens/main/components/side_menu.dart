@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:nfcentralis/models_test_debug_solo/user.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
@@ -15,22 +16,66 @@ class SideMenu extends StatelessWidget {
         DrawerListTile(
           title: "Tableau de bord",
           svgSrc: "assets/icons/dashboard.svg",
-          press: () {},
+          press: () {
+            Navigator.pushNamed(context, '/dashboard');
+          },
+        ),
+        DrawerListTile(
+          title: "Interventions",
+          svgSrc: "assets/icons/clipboard.svg",
+          press: () {
+            Navigator.pushNamed(context, '/list-intervention');
+          },
+        ),
+        DrawerListTile(
+          title: "Installations",
+          svgSrc: "assets/icons/dashboard.svg",
+          press: () {
+            Navigator.pushNamed(context, '/list-installation');
+          },
+        ),
+        DrawerListTile(
+          title: "Donneur d'ordres",
+          svgSrc: "assets/icons/building.svg",
+          press: () {
+            Navigator.pushNamed(context, '/list-orderer');
+          },
+        ),
+        DrawerListTile(
+          title: "Prestataires",
+          svgSrc: "assets/icons/building.svg",
+          press: () {
+            Navigator.pushNamed(context, '/list-provider');
+          },
+        ),
+        DrawerListTile(
+          title: "Clients",
+          svgSrc: "assets/icons/building.svg",
+          press: () {
+            Navigator.pushNamed(context, '/list-client');
+          },
         ),
         DrawerListTile(
           title: "Profil",
           svgSrc: "assets/icons/user.svg",
-          press: () {},
+          press: () {
+            Navigator.pushNamed(context, '/detail-user',
+                arguments: userList[1]);
+          },
         ),
         DrawerListTile(
           title: "Employé(e)s",
           svgSrc: "assets/icons/members.svg",
-          press: () {},
+          press: () {
+            Navigator.pushNamed(context, '/admin/list-utilisateurs');
+          },
         ),
         DrawerListTile(
-          title: "Aide",
-          svgSrc: "assets/icons/help.svg",
-          press: () {},
+          title: "Déconnexion",
+          svgSrc: "assets/icons/logout.svg",
+          press: () {
+            Navigator.pushNamed(context, '/welcome');
+          },
         ),
       ],
     ));

@@ -5,8 +5,6 @@ import 'package:nfcentralis/components/rounded_input_field.dart';
 import 'package:nfcentralis/components/rounded_password_field.dart';
 import 'package:nfcentralis/constants.dart';
 import 'package:nfcentralis/responsive.dart';
-import 'package:nfcentralis/screens/main/main_screen.dart';
-import 'package:nfcentralis/screens/sign_up/sign_up_screen.dart';
 import 'package:nfcentralis/size_config.dart';
 
 class LoginForm extends StatefulWidget {
@@ -17,7 +15,7 @@ class LoginForm extends StatefulWidget {
 }
 
 class LoginFormState extends State<LoginForm> {
-  final _formKey = GlobalKey<FormState>();
+  final _formKeyLogin = GlobalKey<FormState>();
   String? identifier, password;
   final List<String?> errors = [];
 
@@ -26,7 +24,7 @@ class LoginFormState extends State<LoginForm> {
     SizeConfig().init(context);
     setPageTitle('Connexion', context);
     return Form(
-      key: _formKey,
+      key: _formKeyLogin,
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -65,19 +63,14 @@ class LoginFormState extends State<LoginForm> {
             RoundedButton(
                 text: "CONNEXION",
                 press: () async {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return const MainScreen();
-                    }));
+                  if (_formKeyLogin.currentState!.validate()) {
+                    _formKeyLogin.currentState!.save();
+                    Navigator.pushReplacementNamed(context, '/dashboard');
                   }
                 }),
             AlreadyHaveAnAccountCheck(
               press: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const SignUpScreen();
-                }));
+                Navigator.pushNamed(context, '/sign-up');
               },
             ),
           ]),

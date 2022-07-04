@@ -6,6 +6,7 @@ class RoundedInputField extends StatelessWidget {
   final String hintext;
   final IconData icon;
   final TextInputType type;
+  final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
   final void Function(String?)? onSaved;
   final FormFieldValidator<String>? validator;
@@ -14,6 +15,7 @@ class RoundedInputField extends StatelessWidget {
     required this.hintext,
     required this.icon,
     required this.type,
+    this.controller,
     this.onChanged,
     this.onSaved,
     this.validator,
@@ -45,6 +47,7 @@ class RoundedInputField extends StatelessWidget {
         style: const TextStyle(
             fontSize: 16, color: Colors.black, fontWeight: FontWeight.normal),
         keyboardType: type,
+        controller: controller,
         onSaved: onSaved,
         validator: validator,
         textInputAction: TextInputAction.next,

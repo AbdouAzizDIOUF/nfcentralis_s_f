@@ -1,26 +1,36 @@
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:nfcentralis/controllers/menu_controller.dart';
-import 'package:nfcentralis/responsive.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:nfcentralis/constants.dart';
+import 'package:flutter_profile_picture/flutter_profile_picture.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-class Header extends StatelessWidget {
+import 'package:nfcentralis/constants.dart';
+import 'package:nfcentralis/responsive.dart';
+
+class Header extends StatefulWidget {
+  final String title;
   const Header({
     Key? key,
+    required this.title,
   }) : super(key: key);
 
+  @override
+  HeaderState createState() => HeaderState();
+}
+
+class HeaderState extends State<Header> {
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         if (!Responsive.isDesktop(context))
           IconButton(
-              onPressed: context.read<MenuController>().controlMenu,
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
               icon: const Icon(Icons.menu)),
         if (!Responsive.isMobile(context))
           Text(
-            "Accueil",
+            widget.title,
             style: Theme.of(context).textTheme.headline6,
           ),
         if (!Responsive.isMobile(context))
@@ -45,22 +55,17 @@ class ProfileCard extends StatelessWidget {
         horizontal: defaultPadding,
         vertical: defaultPadding / 2,
       ),
-      decoration: BoxDecoration(
-        color: secondaryColor,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
-        border: Border.all(color: Colors.white10),
-      ),
       child: Row(children: [
-        SvgPicture.asset(
-          "assets/icons/user.svg",
-          height: 38,
-          color: Colors.white24,
+        const ProfilePicture(
+          name: "CERSEI LANNISTER",
+          radius: 30,
+          fontsize: 21,
+          tooltip: true,
         ),
         if (!Responsive.isMobile(context))
           const Padding(
               padding: EdgeInsets.symmetric(horizontal: defaultPadding / 2),
               child: Text("Emmanuella AHONDJON")),
-        const Icon(Icons.keyboard_arrow_down),
       ]),
     );
   }
@@ -92,7 +97,7 @@ class SearchField extends StatelessWidget {
                     color: primaryColor,
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
-                  child: SvgPicture.asset("assets/icons/search.svg")),
+                  child: SvgPicture.asset("assets/icons/bell-ring.svg")),
             )));
   }
 }
