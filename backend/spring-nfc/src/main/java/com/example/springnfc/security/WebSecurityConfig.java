@@ -1,6 +1,5 @@
 package com.example.springnfc.security;
 
-
 import com.example.springnfc.security.jwt.AuthEntryPointJwt;
 import com.example.springnfc.security.jwt.AuthTokenFilter;
 import com.example.springnfc.security.services.UserDetailsServiceImpl;
@@ -55,21 +54,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.cors().and().csrf().disable()
-      .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-      .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-      .authorizeRequests().antMatchers("/api/auth/**").permitAll()
-      .antMatchers("/api/test/**").permitAll()
-      .antMatchers("/utilisateurs/**").permitAll()
-      .antMatchers("/clients/**").permitAll()
-      .antMatchers("/companies/**").permitAll()
-      .antMatchers("/interventions/**").permitAll()
-      .antMatchers("/orderers/**").permitAll()
-      .antMatchers("/orderers/**/**").permitAll()
-      .antMatchers("/providers/**").permitAll()
-      /*.antMatchers("/api/providers/**").permitAll()*/
-      //.antMatchers("/**").permitAll()
-      //.anyRequest().permitAll();
-      .anyRequest().authenticated();
+        .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+        .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+        .antMatchers("/api/test/**").permitAll()
+        .antMatchers("/utilisateurs/**").permitAll()
+        .antMatchers("/clients/**").permitAll()
+        .antMatchers("/companies/**").permitAll()
+        .antMatchers("/interventions/**").permitAll()
+        .antMatchers("/orderers/**").permitAll()
+        .antMatchers("/orderers/**/**").permitAll()
+        .antMatchers("/providers/**").permitAll()
+        .antMatchers("/").permitAll()
+        // .antMatchers("/**").permitAll()
+        // .anyRequest().permitAll();
+        .anyRequest().authenticated();
 
     http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
   }
