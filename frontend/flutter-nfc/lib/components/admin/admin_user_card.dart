@@ -3,7 +3,8 @@ import 'package:nfcentralis/constants.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 
 class AdminUserCard extends StatelessWidget {
-  final String firstName, lastName, email, userName, mobile, role;
+  final String firstName, lastName, email, userName, mobile;
+  final String? role;
   final VoidCallback press, pressDelete, pressEdit;
 
   const AdminUserCard(
@@ -75,7 +76,7 @@ class AdminUserCard extends StatelessWidget {
                 Icons.shield,
                 color: Colors.white70,
               ),
-              title: Text(role,
+              title: Text(role!,
                   style: const TextStyle(
                     fontSize: 16,
                     color: Colors.white70,

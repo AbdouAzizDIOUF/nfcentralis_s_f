@@ -1,37 +1,37 @@
 class Utilisateur {
   int? id;
-  String? firstname;
-  String? lastname;
+  String? firstName;
+  String? lastName;
   String? email;
-  int? mobile;
-  String? password;
-  String? username;
-  bool? completed;
+  String? mobile;
+  String? userName;
 
-
-  Utilisateur({required this.id, required this.firstname, required this.lastname, required this.email, required this.mobile, required this.password,required this.username, required this.completed});
+  Utilisateur({
+    required this.id,
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+    required this.mobile,
+    required this.userName,
+  });
 
   Utilisateur.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     email = json['email'];
-    firstname = json['firstname'];
-    lastname = json['lastname'];
+    firstName = json['firstName'];
+    lastName = json['lastName'];
     mobile = json['mobile'];
-    username = json['username'];
-    password = json['password'];
-    completed = json['completed'];
+    userName = json['userName'];
   }
 
-
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id.toString();
-    data['email'] = this.email.toString();
-    data['firsname'] = this.firstname.toString();
-    data['lastname'] = this.lastname.toString();
-    data['username'] = this.username.toString();
-    data['password'] = this.password.toString();
-    data['completed'] = this.completed.toString();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['email'] = email.toString();
+    data['firstName'] = firstName.toString();
+    data['lastName'] = lastName.toString();
+    data['userName'] = userName.toString();
+    data['mobile'] = mobile.toString();
     return data;
   }
 }

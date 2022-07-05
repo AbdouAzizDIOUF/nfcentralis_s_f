@@ -1,9 +1,9 @@
 import 'package:nfcentralis/models/intervention.dart';
-import 'package:nfcentralis/repersitory/repersitory.dart';
+import 'package:nfcentralis/repository/repository.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class InterventionRepersitory implements Repersitory_Intervention{
+class InterventionRepository implements RepositoryIntervention {
   String dataUrl = "http://localhost:8888";
 
   @override
@@ -13,7 +13,7 @@ class InterventionRepersitory implements Repersitory_Intervention{
     await http.delete(url).then((value) {
       print(value.body);
       //temp
-      return result ='true';
+      return result = 'true';
     });
     return result;
   }
@@ -24,8 +24,8 @@ class InterventionRepersitory implements Repersitory_Intervention{
     var url = Uri.parse('$dataUrl/interventions');
     var response = await http.get(url);
     print('status code code : ${response.statusCode}');
-    var body = jsonDecode(response.body);
-    for (var i = 0; i<body.length; i++){
+    var body = json.decode(utf8.decode(response.bodyBytes));
+    for (var i = 0; i < body.length; i++) {
       interventionList.add(Intervention.fromJson(body[i]));
     }
     return interventionList;
@@ -36,8 +36,8 @@ class InterventionRepersitory implements Repersitory_Intervention{
     print('${intervention.toJson()}');
     var url = Uri.parse('$dataUrl/interventions');
     var response = await http.post(url, body: intervention.toJson());
-    print (response.statusCode);
-    print (response.body);
+    print(response.statusCode);
+    print(response.body);
     return 'true';
   }
 

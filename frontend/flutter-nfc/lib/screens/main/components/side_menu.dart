@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:nfcentralis/models_test_debug_solo/user.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
@@ -59,8 +58,7 @@ class SideMenu extends StatelessWidget {
           title: "Profil",
           svgSrc: "assets/icons/user.svg",
           press: () {
-            Navigator.pushNamed(context, '/detail-user',
-                arguments: userList[1]);
+            Navigator.pushNamed(context, '/detail-user', arguments: 1);
           },
         ),
         DrawerListTile(

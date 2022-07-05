@@ -1,12 +1,16 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:nfcentralis/components/admin/admin_user_card.dart';
+import 'package:nfcentralis/components/loading_spinner.dart';
 import 'package:nfcentralis/components/rounded_input_field.dart';
 import 'package:nfcentralis/components/search_widget.dart';
 import 'package:nfcentralis/constants.dart';
 import 'package:nfcentralis/components/header.dart';
+import 'package:nfcentralis/controllers/utilisateur_controller.dart';
+import 'package:nfcentralis/models/utilisateur.dart';
 import 'package:nfcentralis/models_test_debug_solo/role.dart';
 import 'package:nfcentralis/models_test_debug_solo/user.dart';
+import 'package:nfcentralis/repository/utilisateur_repository.dart';
 import 'package:nfcentralis/responsive.dart';
 
 class ListUser extends StatefulWidget {
@@ -17,14 +21,14 @@ class ListUser extends StatefulWidget {
 }
 
 class ListUserState extends State<ListUser> {
-  late List<User> userListFiltered;
+  late List userListFiltered = [];
   String query = '';
+  int loaded = 0;
+  var userController = UtilisateurController(UtilisateurRepository());
 
   @override
   void initState() {
     super.initState();
-
-    userListFiltered = userList;
   }
 
   @override
@@ -48,38 +52,58 @@ class ListUserState extends State<ListUser> {
                         text: query,
                         onChanged: filterList,
                         hintText: "Rechercher"),
-                    ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      padding: const EdgeInsets.all(8),
-                      separatorBuilder: (BuildContext context, i) =>
-                          const SizedBox(height: defaultPadding),
-                      itemCount: userListFiltered.length,
-                      itemBuilder: (BuildContext context, index) {
-                        final user = userListFiltered[index];
+                    FutureBuilder<List<Utilisateur>>(
+                        future: userController.fetchUtilisateurList(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                                  ConnectionState.waiting &&
+                              loaded == 0) {
+                            return Column(
+                              children: const [
+                                SizedBox(height: defaultPadding),
+                                Center(child: LoadingSpinner()),
+                              ],
+                            );
+                          }
+                          loaded += 1;
+                          if (snapshot.hasError) {
+                            return const Center(child: Text('error'));
+                          }
+                          userListFiltered = snapshot.data!;
+                          return ListView.separated(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            padding: const EdgeInsets.all(8),
+                            separatorBuilder: (BuildContext context, i) =>
+                                const SizedBox(height: defaultPadding),
+                            itemCount: userListFiltered.length,
+                            itemBuilder: (BuildContext context, index) {
+                              final user = userListFiltered[index];
 
-                        return buildUser(user);
-                      },
-                    ),
+                              return buildUser(user);
+                            },
+                          );
+                        }),
                   ],
                 ))
               ],
-            )
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget buildUser(User user) => AdminUserCard(
+  Widget buildUser(Utilisateur user) => AdminUserCard(
       firstName: user.firstName!,
       lastName: user.lastName!,
       email: user.email!,
       userName: user.userName!,
       mobile: user.mobile!,
-      role: user.role.name,
+      role: 't',
+      // role: user.role.name,
       press: () {
-        Navigator.pushNamed(context, '/detail-user', arguments: user);
+        Navigator.pushNamed(context, '/detail-user', arguments: user.id);
       },
       pressDelete: () {
         dialogDelete(user);
@@ -92,12 +116,11 @@ class ListUserState extends State<ListUser> {
     final list = userList.where((u) {
       final firstNameLower = u.firstName?.toLowerCase();
       final lastNameLower = u.lastName?.toLowerCase();
-      final roleLower = u.role.name.toLowerCase();
+      // final roleLower = u.role.name.toLowerCase();
       final searchLower = query.toLowerCase();
 
       return firstNameLower!.contains(searchLower) ||
-          lastNameLower!.contains(searchLower) ||
-          roleLower.contains(searchLower);
+          lastNameLower!.contains(searchLower);
     }).toList();
 
     setState(() {
@@ -106,7 +129,7 @@ class ListUserState extends State<ListUser> {
     });
   }
 
-  Future<dynamic> dialogDelete(User user) {
+  Future<dynamic> dialogDelete(Utilisateur user) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -204,7 +227,7 @@ class ListUserState extends State<ListUser> {
         });
   }
 
-  Future<dynamic> dialogEdit(User user) {
+  Future<dynamic> dialogEdit(Utilisateur user) {
     final _formKeyModalEdit = GlobalKey<FormState>();
     Size size = MediaQuery.of(context).size;
     String? email, firstname, lastname, number, username;
@@ -221,8 +244,8 @@ class ListUserState extends State<ListUser> {
     displayMobileController.text = user.mobile!;
     final displayUserNameController = TextEditingController();
     displayUserNameController.text = user.userName!;
-    final displayRoleController = TextEditingController();
-    displayRoleController.text = user.role.id.toString();
+    // final displayRoleController = TextEditingController();
+    // displayRoleController.text = user.role.id.toString();
 
     return showDialog(
         context: context,
@@ -362,7 +385,7 @@ class ListUserState extends State<ListUser> {
                                   ),
                                 ))
                             .toList(),
-                        value: selectedValue ?? user.role.id.toString(),
+                        // value: selectedValue ?? user.role.id.toString(),
                         onChanged: (value) {
                           setState(() {
                             selectedValue = value.toString();

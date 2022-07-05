@@ -1,48 +1,49 @@
-class Client {
+class Companie {
   int? id;
   String? adress;
   String? city;
   String? email;
-  String? logo;
   String? name;
   int? phone;
   String? zipcode;
   String? description;
+  String? logo;
 
-  Client(
-      {required this.id,
-      required this.adress,
-      required this.city,
-      required this.email,
-      required this.logo,
-      required this.name,
-      required this.phone,
-      required this.zipcode,
-      required this.description});
+  Companie({
+    required this.id,
+    required this.adress,
+    required this.city,
+    required this.email,
+    required this.name,
+    required this.phone,
+    required this.zipcode,
+    required this.description,
+    required this.logo,
+  });
 
-  Client.fromJson(Map<String, dynamic> json) {
+  Companie.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     adress = json['adress'];
     city = json['city'];
     email = json['email'];
-    logo = json['logo'];
     name = json['name'];
     phone = json['phone'];
     zipcode = json['zipcode'];
     description = json['description'];
+    logo = json['logo'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id.toString();
+    data['name'] = name.toString();
     data['adress'] = adress.toString();
     data['city'] = city.toString();
-    data['email'] = email.toString();
-    data['logo'] = logo.toString();
-    data['name'] = name.toString();
-    data['phone'] = phone.toString();
     data['zipcode'] = zipcode.toString();
+    data['phone'] = phone.toString();
+    data['email'] = email.toString();
     data['description'] = description.toString();
+    data['logo'] = logo.toString();
     return data;
   }
 }
