@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nfcentralis/components/already_have_an_account_check.dart';
 import 'package:nfcentralis/components/rounded_button.dart';
-import 'package:nfcentralis/screens/login/login_screen.dart';
-import 'package:nfcentralis/screens/sign_up/sign_up_screen.dart';
 
 class Content extends StatelessWidget {
   const Content({
@@ -15,16 +13,12 @@ class Content extends StatelessWidget {
       children: [
         RoundedButton(
             text: "CONNEXION",
-            press: () => {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return const LoginScreen();
-                  }))
-                }),
+            press: () {
+              Navigator.pushReplacementNamed(context, '/login');
+            }),
         AlreadyHaveAnAccountCheck(
           press: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return const SignUpScreen();
-            }));
+            Navigator.pushReplacementNamed(context, '/sign-up');
           },
         ),
       ],

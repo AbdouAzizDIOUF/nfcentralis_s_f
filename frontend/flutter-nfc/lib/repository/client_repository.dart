@@ -1,9 +1,9 @@
 import 'package:nfcentralis/models/client.dart';
-import 'package:nfcentralis/repersitory/repersitory.dart';
+import 'package:nfcentralis/repository/repository.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class ClientRepersitory implements Repersitory {
+class ClientRepository implements Repository {
   String dataUrl = "http://localhost:8888";
 
   @override
@@ -24,9 +24,10 @@ class ClientRepersitory implements Repersitory {
     var url = Uri.parse('$dataUrl/clients');
     var response = await http.get(url);
     print('status code code : ${response.statusCode}');
-    var body = jsonDecode(response.body);
-    for (var i = 0; i < body.length; i++) {
-      clientList.add(Client.fromJson(body[i]));
+    var body = json.decode(utf8.decode(response.bodyBytes));
+    var client = body['_embedded']['clients'];
+    for (var i = 0; i < client; i++) {
+      clientList.add(Client.fromJson(client[i]));
     }
     return clientList;
   }
@@ -47,21 +48,21 @@ class ClientRepersitory implements Repersitory {
     return 'true';
   }
 
-  @override
-  Future<String> putCompleted(Client client) async {
-    var url = Uri.parse('$dataUrl/clients/${client.id}');
-    String resData = '';
-    await http.put(
-      url,
-      body: {
-        'completed': (!client.completed!).toString(),
-      },
-      headers: {'Authorization': 'your_token'},
-    ).then((response) {
-      Map<String, dynamic> result = json.decode(response.body);
-      print(result);
-      return resData = result['completed'];
-    });
-    return resData;
-  }
+  // @override
+  // Future<String> putCompleted(Client client) async {
+  //   var url = Uri.parse('$dataUrl/clients/${client.id}');
+  //   String resData = '';
+  //   await http.put(
+  //     url,
+  //     body: {
+  //       'completed': (!client.completed!).toString(),
+  //     },
+  //     headers: {'Authorization': 'your_token'},
+  //   ).then((response) {
+  //     Map<String, dynamic> result = json.decode(response.body);
+  //     print(result);
+  //     return resData = result['completed'];
+  //   });
+  //   return resData;
+  // }
 }

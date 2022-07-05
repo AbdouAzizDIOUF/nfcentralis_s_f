@@ -1,9 +1,9 @@
 import 'package:nfcentralis/models/etape.dart';
-import 'package:nfcentralis/repersitory/repersitory.dart';
+import 'package:nfcentralis/repository/repository.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class EtapeRepersitory implements Repersitory_Etape{
+class EtapeRepository implements RepositoryEtape {
   String dataUrl = "http://localhost:8888";
 
   @override
@@ -13,7 +13,7 @@ class EtapeRepersitory implements Repersitory_Etape{
     await http.delete(url).then((value) {
       print(value.body);
       //temp
-      return result ='true';
+      return result = 'true';
     });
     return result;
   }
@@ -24,8 +24,8 @@ class EtapeRepersitory implements Repersitory_Etape{
     var url = Uri.parse('$dataUrl/etapes');
     var response = await http.get(url);
     print('status code code : ${response.statusCode}');
-    var body = jsonDecode(response.body);
-    for (var i = 0; i<body.length; i++){
+    var body = json.decode(utf8.decode(response.bodyBytes));
+    for (var i = 0; i < body.length; i++) {
       etapeList.add(Etape.fromJson(body[i]));
     }
     return etapeList;
@@ -36,8 +36,8 @@ class EtapeRepersitory implements Repersitory_Etape{
     print('${etape.toJson()}');
     var url = Uri.parse('$dataUrl/etapes');
     var response = await http.post(url, body: etape.toJson());
-    print (response.statusCode);
-    print (response.body);
+    print(response.statusCode);
+    print(response.body);
     return 'true';
   }
 

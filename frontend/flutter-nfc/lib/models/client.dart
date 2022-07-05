@@ -7,10 +7,18 @@ class Client {
   String? name;
   int? phone;
   String? zipcode;
-  bool? completed;
+  String? description;
 
-
-  Client({required this.id, required this.adress, required this.city, required this.email, required this.logo, required this.name, required this.phone, required this.zipcode, required this.completed});
+  Client(
+      {required this.id,
+      required this.adress,
+      required this.city,
+      required this.email,
+      required this.logo,
+      required this.name,
+      required this.phone,
+      required this.zipcode,
+      required this.description});
 
   Client.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -21,21 +29,20 @@ class Client {
     name = json['name'];
     phone = json['phone'];
     zipcode = json['zipcode'];
-    completed = json['completed'];
+    description = json['description'];
   }
 
-
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id.toString();
-    data['adress'] = this.adress.toString();
-    data['city'] = this.city.toString();
-    data['email'] = this.email.toString();
-    data['logo'] = this.logo.toString();
-    data['name'] = this.name.toString();
-    data['phone'] = this.phone.toString();
-    data['zipcode'] = this.zipcode.toString();
-    data['completed'] = this.completed.toString();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id.toString();
+    data['adress'] = adress.toString();
+    data['city'] = city.toString();
+    data['email'] = email.toString();
+    data['logo'] = logo.toString();
+    data['name'] = name.toString();
+    data['phone'] = phone.toString();
+    data['zipcode'] = zipcode.toString();
+    data['description'] = description.toString();
     return data;
   }
 }

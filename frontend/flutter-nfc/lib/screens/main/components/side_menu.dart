@@ -15,22 +15,65 @@ class SideMenu extends StatelessWidget {
         DrawerListTile(
           title: "Tableau de bord",
           svgSrc: "assets/icons/dashboard.svg",
-          press: () {},
+          press: () {
+            Navigator.pushNamed(context, '/dashboard');
+          },
+        ),
+        DrawerListTile(
+          title: "Interventions",
+          svgSrc: "assets/icons/clipboard.svg",
+          press: () {
+            Navigator.pushNamed(context, '/list-intervention');
+          },
+        ),
+        DrawerListTile(
+          title: "Installations",
+          svgSrc: "assets/icons/dashboard.svg",
+          press: () {
+            Navigator.pushNamed(context, '/list-installation');
+          },
+        ),
+        DrawerListTile(
+          title: "Donneur d'ordres",
+          svgSrc: "assets/icons/building.svg",
+          press: () {
+            Navigator.pushNamed(context, '/list-orderer');
+          },
+        ),
+        DrawerListTile(
+          title: "Prestataires",
+          svgSrc: "assets/icons/building.svg",
+          press: () {
+            Navigator.pushNamed(context, '/list-provider');
+          },
+        ),
+        DrawerListTile(
+          title: "Clients",
+          svgSrc: "assets/icons/building.svg",
+          press: () {
+            Navigator.pushNamed(context, '/list-client');
+          },
         ),
         DrawerListTile(
           title: "Profil",
           svgSrc: "assets/icons/user.svg",
-          press: () {},
+          press: () {
+            Navigator.pushNamed(context, '/detail-user', arguments: 1);
+          },
         ),
         DrawerListTile(
           title: "Employé(e)s",
           svgSrc: "assets/icons/members.svg",
-          press: () {},
+          press: () {
+            Navigator.pushNamed(context, '/admin/list-utilisateurs');
+          },
         ),
         DrawerListTile(
-          title: "Aide",
-          svgSrc: "assets/icons/help.svg",
-          press: () {},
+          title: "Déconnexion",
+          svgSrc: "assets/icons/logout.svg",
+          press: () {
+            Navigator.pushNamed(context, '/welcome');
+          },
         ),
       ],
     ));
