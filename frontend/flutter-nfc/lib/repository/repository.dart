@@ -57,7 +57,7 @@ abstract class RepositoryUtilisateur {
 
   Future<Companie> getUtilisateurCompany(int userId);
 
-  Future<Role> getUtilisateurRole(int userId);
+  Future<List<Role>> getUtilisateurRole(int userId);
 }
 
 abstract class RepositoryIntervention {

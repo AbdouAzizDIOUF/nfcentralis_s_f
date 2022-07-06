@@ -36,7 +36,7 @@ class UtilisateurController {
     return _repository.getUtilisateurCompany(userId);
   }
 
-  Future<Role> getUtilisateurRole(int userId) async {
+  Future<List<Role>> getUtilisateurRole(int userId) async {
     return _repository.getUtilisateurRole(userId);
   }
 }

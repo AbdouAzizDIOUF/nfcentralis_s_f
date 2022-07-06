@@ -22,9 +22,11 @@ class ListUser extends StatefulWidget {
 
 class ListUserState extends State<ListUser> {
   late List userListFiltered = [];
+  late String roleUser = '';
   String query = '';
   int loaded = 0;
   var userController = UtilisateurController(UtilisateurRepository());
+  var roleController = UtilisateurController(UtilisateurRepository());
 
   @override
   void initState() {
@@ -80,7 +82,11 @@ class ListUserState extends State<ListUser> {
                             itemBuilder: (BuildContext context, index) {
                               final user = userListFiltered[index];
 
-                              return buildUser(user);
+                              roleController
+                                  .getUtilisateurRole(user.id)
+                                  .then((value) => roleUser = value[0].name!);
+
+                              return buildUser(user, roleUser);
                             },
                           );
                         }),
@@ -94,13 +100,13 @@ class ListUserState extends State<ListUser> {
     );
   }
 
-  Widget buildUser(Utilisateur user) => AdminUserCard(
+  Widget buildUser(Utilisateur user, String? role) => AdminUserCard(
       firstName: user.firstName!,
       lastName: user.lastName!,
       email: user.email!,
       userName: user.userName!,
       mobile: user.mobile!,
-      role: 't',
+      role: role,
       // role: user.role.name,
       press: () {
         Navigator.pushNamed(context, '/detail-user', arguments: user.id);

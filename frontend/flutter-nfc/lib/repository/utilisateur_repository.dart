@@ -46,14 +46,17 @@ class UtilisateurRepository implements RepositoryUtilisateur {
   }
 
   @override
-  Future<Role> getUtilisateurRole(int userId) async {
-    Role role;
+  Future<List<Role>> getUtilisateurRole(int userId) async {
+    List<Role> roleList = [];
     var url = Uri.parse('$dataUrl/utilisateurs/$userId/roles');
     var response = await http.get(url);
     var body = json.decode(utf8.decode(response.bodyBytes));
-    role = Role.fromJson(body["_embedded"]["roles"]);
+    var role = body["_embedded"]["roles"];
 
-    return role;
+    for (var i = 0; i < role.length; i++) {
+      roleList.add(Role.fromJson(role[i]));
+    }
+    return roleList;
   }
 
   @override
