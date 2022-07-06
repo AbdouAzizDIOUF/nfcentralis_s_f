@@ -1,8 +1,6 @@
-import 'package:nfcentralis/controllers/menu_controller.dart';
 import 'package:nfcentralis/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:nfcentralis/screens/home/home_screen.dart';
-import 'package:provider/provider.dart';
 import 'components/side_menu.dart';
 
 class MainScreen extends StatelessWidget {
@@ -10,8 +8,9 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    setPageTitle("Tableau de bord", context);
     return Scaffold(
-      key: context.read<MenuController>().scaffoldKey,
+      key: const Key("Dashboard"),
       drawer: const SideMenu(),
       body: SafeArea(
           child: Row(

@@ -14,26 +14,27 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     setPageTitle('Inscription', context);
     return Background(
+        key: const Key("Inscription"),
         child: SingleChildScrollView(
-      child: Responsive(
-        desktop: Row(children: [
-          const Expanded(child: SignUpScreenImage()),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                SizedBox(
-                  width: 450,
-                  child: SignUpForm(),
+          child: Responsive(
+            desktop: Row(children: [
+              const Expanded(child: SignUpScreenImage()),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    SizedBox(
+                      width: 450,
+                      child: SignUpForm(),
+                    ),
+                    SizedBox(height: defaultPadding / 2),
+                  ],
                 ),
-                SizedBox(height: defaultPadding / 2),
-              ],
-            ),
-          )
-        ]),
-        mobile: const MobileSignupScreen(),
-      ),
-    ));
+              )
+            ]),
+            mobile: const MobileSignupScreen(),
+          ),
+        ));
   }
 }
 
@@ -69,7 +70,6 @@ class MobileSignupScreen extends StatelessWidget {
             Spacer(),
           ],
         ),
-        // const SocalSignUp()
       ],
     );
   }

@@ -13,26 +13,27 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     setPageTitle('Connexion', context);
     return Background(
+        key: const Key("Connexion"),
         child: SingleChildScrollView(
-      child: Responsive(
-        desktop: Row(
-          children: [
-            const Expanded(child: LoginScreenImage()),
-            Expanded(
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                SizedBox(
-                  width: 450,
-                  child: LoginForm(),
-                )
+          child: Responsive(
+            desktop: Row(
+              children: [
+                const Expanded(child: LoginScreenImage()),
+                Expanded(
+                    child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    SizedBox(
+                      width: 450,
+                      child: LoginForm(),
+                    )
+                  ],
+                ))
               ],
-            ))
-          ],
-        ),
-        mobile: const MobileLoginScreen(),
-      ),
-    ));
+            ),
+            mobile: const MobileLoginScreen(),
+          ),
+        ));
   }
 }
 

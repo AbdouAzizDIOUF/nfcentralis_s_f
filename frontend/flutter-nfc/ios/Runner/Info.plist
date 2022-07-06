@@ -42,6 +42,14 @@
 			<string>UIInterfaceOrientationLandscapeRight</string>
 		</array>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+		<string>sms</string>
+		<string>tel</string>
+		<string>mailto</string>
+		<string>https</string>
+		<string>file</string>
+		</array>
 		<true/>
 		<key>UIStatusBarHidden</key>
 		<false/>

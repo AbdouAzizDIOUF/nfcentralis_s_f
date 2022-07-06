@@ -1,8 +1,9 @@
 import 'package:nfcentralis/constants.dart';
 import 'package:nfcentralis/responsive.dart';
-// import 'package:admin/screens/dashboard/components/my_fields.dart';
 import 'package:flutter/material.dart';
-import 'package:nfcentralis/screens/home/components/header.dart';
+import 'package:nfcentralis/screens/companies/list_companies/body.dart';
+import 'package:nfcentralis/components/header.dart';
+import 'package:nfcentralis/screens/home/components/installation_plugin.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class HomeScreen extends StatelessWidget {
         padding: const EdgeInsets.all(defaultPadding),
         child: Column(
           children: [
-            const Header(),
+            const Header(title: "Tableau de bord"),
             const SizedBox(height: defaultPadding),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -24,22 +25,14 @@ class HomeScreen extends StatelessWidget {
                   flex: 5,
                   child: Column(
                     children: [
-                      // MyFiles(),
                       const SizedBox(height: defaultPadding),
-                      // RecentFiles(),
                       if (Responsive.isMobile(context))
                         const SizedBox(height: defaultPadding),
-                      // if (Responsive.isMobile(context)) StorageDetails(),
+                      const ListInstallationsPlugin(),
+                      const ListCompanies(),
                     ],
                   ),
                 ),
-                if (!Responsive.isMobile(context))
-                  const SizedBox(width: defaultPadding),
-                // if (!Responsive.isMobile(context))
-                //   Expanded(
-                //     flex: 2,
-                //     child: StorageDetails(),
-                //   ),
               ],
             )
           ],
