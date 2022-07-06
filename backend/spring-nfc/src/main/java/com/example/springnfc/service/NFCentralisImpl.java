@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Locale;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -23,14 +22,16 @@ public class NFCentralisImpl implements IInitNFCentralis
     private final ClientRepository clientRepository;
     private PasswordEncoder encoder;
     private final RoleRepository roleRepository;
+    private final InstallationRepository installationRepository;
 
-    public NFCentralisImpl(OrdererRepository ordererRepository, ProviderRepository providerRepository, UtilisateurRepository utilisateurRepository, ClientRepository clientRepository, PasswordEncoder encoder, RoleRepository roleRepository) {
+    public NFCentralisImpl(OrdererRepository ordererRepository, ProviderRepository providerRepository, UtilisateurRepository utilisateurRepository, ClientRepository clientRepository, PasswordEncoder encoder, RoleRepository roleRepository, InstallationRepository installationRepository) {
         this.ordererRepository = ordererRepository;
         this.providerRepository = providerRepository;
         this.utilisateurRepository = utilisateurRepository;
         this.clientRepository = clientRepository;
         this.encoder = encoder;
         this.roleRepository = roleRepository;
+        this.installationRepository = installationRepository;
     }
 
 
@@ -206,9 +207,7 @@ public class NFCentralisImpl implements IInitNFCentralis
         for (int i=0; i<5; i++){
             Faker faker = new Faker(new Locale("fr-FR"));
             Client client = new Client();
-
             System.out.printf(faker.company().logo());
-
             client.setName(faker.company().name());
             client.setAdress(faker.address().streetName());
             client.setCity(faker.address().city());
@@ -217,7 +216,43 @@ public class NFCentralisImpl implements IInitNFCentralis
             client.setEmail(faker.internet().emailAddress());
             client.setDescription(faker.chuckNorris().fact());
             client.setLogo(faker.company().logo());
+
+            Utilisateur userOrderer = utilisateurRepository.findById(1L).get();
+            client.setUserOrderer(userOrderer);
+
             clientRepository.save(client);
+            Set<Role> roles = new HashSet<>();
+
+            Role userRole = roleRepository.findByName(ERole.ROLE_CLIENT)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(userRole);
+
+            Utilisateur utilisateur = new Utilisateur();
+            utilisateur.setFirstName(faker.name().firstName());
+            utilisateur.setLastName(faker.name().lastName());
+            utilisateur.setEmail(faker.internet().emailAddress());
+            utilisateur.setMobile(faker.phoneNumber().phoneNumber());
+            utilisateur.setUserName(faker.name().username());
+            utilisateur.setPassword(encoder.encode("passer2022"));
+            utilisateur.setClient(client);
+            utilisateur.setRoles(roles);
+            utilisateurRepository.save(utilisateur);
         }
+    }
+
+    public void initInstallation(){
+        int i =1;
+        clientRepository.findAll().forEach(client->{
+            Installation installation = new Installation();
+            Faker faker = new Faker(new Locale("fr-FR"));
+            installation.setTitle("Installation#"+1+ (int)(Math.random() * 7));
+            installation.setAdress(faker.address().streetName());
+            installation.setZipcode(faker.address().buildingNumber());
+            installation.setImage(faker.company().logo());
+            installation.setDescription(faker.chuckNorris().fact());
+            installation.setClient(client);
+            installationRepository.save(installation);
+            //int i +=1;
+        });
     }
 }

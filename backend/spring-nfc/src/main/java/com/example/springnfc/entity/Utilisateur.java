@@ -1,10 +1,13 @@
 package com.example.springnfc.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
@@ -31,6 +34,7 @@ public class Utilisateur implements Serializable {
     private String lastName;
     private String email;
     private String userName;
+    @JsonIgnore
     private String password;
     private String mobile;
 
@@ -38,13 +42,8 @@ public class Utilisateur implements Serializable {
     private Date updatedAt;
 
     @ManyToOne
+    @JoinColumn(nullable = true)
     private Company company;
-
-    public Utilisateur(String userName,String email, String password) {
-        this.email = email;
-        this.userName = userName;
-        this.password = password;
-    }
 
     @OneToMany(mappedBy="utilisateur")
     private Collection<Intervention> interventions;
@@ -58,5 +57,12 @@ public class Utilisateur implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    @OneToOne
+    private Client client;
 
+    public Utilisateur(String userName,String email, String password) {
+        this.email = email;
+        this.userName = userName;
+        this.password = password;
+    }
 }

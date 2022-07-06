@@ -32,7 +32,14 @@ public class Client implements Serializable {
 
     private String logo;
 
-    @OneToMany(mappedBy="client")
+    @OneToMany(mappedBy="client", cascade = CascadeType.PERSIST)
     private Collection<Installation> installations;
 
+    @OneToOne(mappedBy="client")
+    @JoinColumn(nullable = false)
+    private Utilisateur utilisateur;
+
+    @OneToOne
+    @JoinColumn(nullable = false)
+    private Utilisateur userOrderer;
 }
