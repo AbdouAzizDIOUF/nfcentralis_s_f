@@ -60,6 +60,10 @@ public class Utilisateur implements Serializable {
     @OneToOne
     private Client client;
 
+    @OneToMany(mappedBy="travailleur")
+    private Collection<InterventionProviderTravailleur> interventionProviderTravailleurs;
+
+
     public Utilisateur(String userName,String email, String password) {
         this.email = email;
         this.userName = userName;

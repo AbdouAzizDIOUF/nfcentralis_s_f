@@ -1,6 +1,7 @@
 package com.example.springnfc.controller;
 
 
+import com.example.springnfc.entity.Company;
 import com.example.springnfc.entity.ERole;
 import com.example.springnfc.entity.Role;
 import com.example.springnfc.entity.Utilisateur;
@@ -49,8 +50,6 @@ public class AuthController {
   @PostMapping("/signin")
   public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
     //System.out.println(loginRequest.toString());
-
-
     Authentication authentication = authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
@@ -62,6 +61,11 @@ public class AuthController {
         .map(item -> item.getAuthority())
         .collect(Collectors.toList());
 
+    Company comp = new Company();
+    comp.setId(userDetails.getCompany().getId());
+    comp.setName(userDetails.getCompany().getName());
+    comp.setLogo(userDetails.getCompany().getLogo());
+    comp.setDescription(userDetails.getCompany().getDescription());
     return ResponseEntity.ok(new JwtResponse(jwt,
                          userDetails.getId(), 
                          userDetails.getUsername(), 
@@ -69,7 +73,8 @@ public class AuthController {
                          roles,
                          userDetails.getFirstName(),
                          userDetails.getLastName(),
-                         userDetails.getMobile()
+                         userDetails.getMobile(),
+                         comp
             ));
   }
 

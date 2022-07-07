@@ -1,10 +1,7 @@
 package com.example.springnfc.projection;
 
 
-import com.example.springnfc.entity.Company;
-import com.example.springnfc.entity.InterventionProvider;
-import com.example.springnfc.entity.Role;
-import com.example.springnfc.entity.Utilisateur;
+import com.example.springnfc.entity.*;
 import org.springframework.data.rest.core.config.Projection;
 
 import java.util.List;
@@ -19,4 +16,5 @@ public interface UtilisateurProjection {
     String getMobile();
     Company getCompany();
     List<Role> getRoles();
+    Client getClient();
 }

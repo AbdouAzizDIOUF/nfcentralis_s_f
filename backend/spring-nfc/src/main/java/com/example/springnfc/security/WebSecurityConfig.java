@@ -54,7 +54,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.cors().and().csrf().disable()
-<<<<<<< HEAD
       .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
       .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
       .authorizeRequests().antMatchers("/api/auth/**").permitAll()
@@ -68,28 +67,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
       .antMatchers("/orderers/**").permitAll()
       .antMatchers("/orderers/**/**").permitAll()
       .antMatchers("/providers/**").permitAll()
-      .antMatchers("//interventionProviders").permitAll()
+      .antMatchers("/interventionProviders/**").permitAll()
+      .antMatchers("/interventionProviderTravailleurs/**").permitAll()
       /*.antMatchers("/api/providers/**").permitAll()*/
       .antMatchers("/").permitAll()
       .anyRequest().permitAll();
       //s.anyRequest().authenticated();
-=======
-        .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-        .authorizeRequests().antMatchers("/api/auth/**").permitAll()
-        .antMatchers("/api/test/**").permitAll()
-        .antMatchers("/utilisateurs/**").permitAll()
-        .antMatchers("/clients/**").permitAll()
-        .antMatchers("/companies/**").permitAll()
-        .antMatchers("/interventions/**").permitAll()
-        .antMatchers("/orderers/**").permitAll()
-        .antMatchers("/orderers/**/**").permitAll()
-        .antMatchers("/providers/**").permitAll()
-        .antMatchers("/").permitAll()
-        // .antMatchers("/**").permitAll()
-        // .anyRequest().permitAll();
-        .anyRequest().authenticated();
->>>>>>> origin/dima_branch
+
 
     http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
   }

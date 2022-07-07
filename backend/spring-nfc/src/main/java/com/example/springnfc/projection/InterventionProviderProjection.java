@@ -7,8 +7,9 @@ import org.springframework.data.rest.core.config.Projection;
 
 @Projection(types = {InterventionProvider.class}, name = "interventionProviderProjection")
 public interface InterventionProviderProjection {
-
     Integer getId();
+    String getDescription();
+    Boolean getEstAttribue();
     Installation getInstallation();
     Provider getProvider();
 }

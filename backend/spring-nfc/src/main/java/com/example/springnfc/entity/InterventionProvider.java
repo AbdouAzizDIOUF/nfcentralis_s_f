@@ -16,13 +16,18 @@ public class InterventionProvider implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
+    @Lob
+    private String description;
     @ManyToOne
     private Installation installation;
 
     @ManyToOne
     private Provider provider;
 
+    @OneToOne(mappedBy="interventionProvider")
+    private InterventionProviderTravailleur interventionProvider;
+
     private Date createdAt = new Date();
-    private Boolean estAttribue;
+
+    private Boolean estAttribue = false;
 }
