@@ -8,6 +8,7 @@ import com.example.springnfc.repository.InterventionProviderTravailleurRepositor
 import com.example.springnfc.repository.ProviderRepository;
 import com.example.springnfc.repository.UtilisateurRepository;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +34,7 @@ public class InterventionController {
     }
 
     @Transactional
+    @PreAuthorize("hasRole('CHEF')")
     @GetMapping(path = "/a-intervenir/{idUser}", produces="application/json")
     public List<InterventionProvider> getIntervention(@PathVariable("idUser") Long id){
         Company company = utilisateurRepository.findById(id).get().getCompany();
@@ -58,6 +60,7 @@ public class InterventionController {
     }
 
     @PostMapping("/attribuerInterventionTravailleur")
+    /*@PreAuthorize("hasRole('CHEF')")*/
     public ResponseEntity<?> authenticateUser(@RequestBody InterventionProviderTravailleurForm form) {
         InterventionProviderTravailleur iPT = new InterventionProviderTravailleur();
         InterventionProvider interventionProvider = this.interventionProviderRepository.findById(form.getInterventionProvider()).get();
@@ -69,5 +72,39 @@ public class InterventionController {
         iptRepository.save(iPT);
 
         return ResponseEntity.ok(iPT);
+    }
+
+    @Transactional
+    //@PreAuthorize("hasRole('CHEF')")
+    @GetMapping(path = "/a-intervenir-travailleur/{idUser}", produces="application/json")
+    public List<InterventionProviderTravailleur> getInterventionTravailleur(@PathVariable("idUser") Long id){
+          List<InterventionProviderTravailleur> interventionProviderTravailleurList = new ArrayList<>();
+          Utilisateur utilisateur = utilisateurRepository.findById(id).get();
+          this.iptRepository.findByTravailleur(utilisateur).forEach(i->{
+              InterventionProviderTravailleur ipt = new InterventionProviderTravailleur();
+              ipt.setId(i.getId());
+              ipt.setEstIntervenue(i.getEstIntervenue());
+              InterventionProvider ip = new InterventionProvider();
+              ip.setId(i.getInterventionProvider().getId());
+              ip.setDescription(i.getInterventionProvider().getDescription());
+              Installation installation = new Installation();
+              installation.setId(i.getInterventionProvider().getInstallation().getId());
+              //installation.setAdress(i.getInterventionProvider().getInstallation().getAdress());
+              installation.setTitle(i.getInterventionProvider().getInstallation().getTitle());
+              installation.setImage(i.getInterventionProvider().getInstallation().getImage());
+              installation.setDescription(i.getInterventionProvider().getInstallation().getDescription());
+              Client client = new Client();
+              client.setId(i.getInterventionProvider().getInstallation().getClient().getId());
+              client.setName(i.getInterventionProvider().getInstallation().getClient().getName());
+              client.setEmail(i.getInterventionProvider().getInstallation().getClient().getEmail());
+              client.setPhone(i.getInterventionProvider().getInstallation().getClient().getPhone());
+              client.setDescription(i.getInterventionProvider().getInstallation().getClient().getDescription());
+              installation.setClient(client);
+              ip.setInstallation(installation);
+              ipt.setInterventionProvider(ip);
+              interventionProviderTravailleurList.add(ipt);
+          });
+
+          return interventionProviderTravailleurList;
     }
 }

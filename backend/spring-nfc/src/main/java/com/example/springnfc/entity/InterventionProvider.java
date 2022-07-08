@@ -16,8 +16,10 @@ public class InterventionProvider implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Lob
     private String description;
+
     @ManyToOne
     private Installation installation;
 
