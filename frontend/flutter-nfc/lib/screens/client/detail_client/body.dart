@@ -1,12 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:nfcentralis/models_test_debug_solo/company.dart';
+import 'package:nfcentralis/models/client.dart';
 
 class DetailClient extends StatefulWidget {
-  final Company company;
+  final Client client;
   const DetailClient({
     Key? key,
-    required this.company,
+    required this.client,
   }) : super(key: key);
 
   @override
@@ -31,21 +31,10 @@ class DetailClientState extends State<DetailClient> {
           },
           child: ListView(
             children: [
-              Container(
+              SizedBox(
                 width: 100,
                 height: 100,
-                child: Image.asset(
-                  widget.company.logo!,
-                ),
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        spreadRadius: 2,
-                        blurRadius: 10,
-                        color: Colors.black.withOpacity(0.1),
-                        offset: const Offset(0, 10))
-                  ],
-                ),
+                child: Image.asset("assets/logo/logo_NFC_hor.png"),
               ),
               const SizedBox(
                 height: 40,
@@ -55,7 +44,7 @@ class DetailClientState extends State<DetailClient> {
                   Icons.location_city,
                   color: Colors.white70,
                 ),
-                title: SelectableText(widget.company.name!,
+                title: SelectableText(widget.client.name!,
                     style: const TextStyle(
                       fontSize: 16,
                       color: Colors.white70,
@@ -68,7 +57,7 @@ class DetailClientState extends State<DetailClient> {
                   Icons.email,
                   color: Colors.white70,
                 ),
-                title: SelectableText(widget.company.email!,
+                title: SelectableText(widget.client.email!,
                     style: const TextStyle(
                       fontSize: 16,
                       color: Colors.white70,
@@ -87,7 +76,7 @@ class DetailClientState extends State<DetailClient> {
                   Icons.location_city,
                   color: Colors.white70,
                 ),
-                title: SelectableText(widget.company.city!,
+                title: SelectableText(widget.client.city!,
                     style: const TextStyle(
                       fontSize: 16,
                       color: Colors.white70,
@@ -107,7 +96,7 @@ class DetailClientState extends State<DetailClient> {
                   color: Colors.white70,
                 ),
                 title: SelectableText(
-                    widget.company.adress! + ", " + widget.company.zipcode!,
+                    widget.client.adress! + ", " + widget.client.zipcode!,
                     style: const TextStyle(
                       fontSize: 16,
                       color: Colors.white70,
@@ -126,7 +115,7 @@ class DetailClientState extends State<DetailClient> {
                   Icons.call,
                   color: Colors.white70,
                 ),
-                title: SelectableText(widget.company.phone!,
+                title: SelectableText(widget.client.phone!,
                     style: const TextStyle(
                       fontSize: 16,
                       color: Colors.white70,

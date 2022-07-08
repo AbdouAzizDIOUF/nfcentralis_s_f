@@ -1,14 +1,13 @@
-import 'package:nfcentralis/models/companie.dart';
-import 'package:nfcentralis/repository/repository.dart';
+import 'package:nfcentralis/models/company.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:nfcentralis/constants.dart';
+import 'package:nfcentralis/repository/repository.dart';
 
-class CompanieRepository implements RepositoryCompanie {
-  String dataUrl = "http://localhost:8888";
-
+class CompanyRepository implements RepositoryCompany {
   @override
-  Future<String> deleteCompagnie(Companie companie) async {
-    var url = Uri.parse('$dataUrl/companies/${companie.id}');
+  Future<String> deleteCompany(Company company) async {
+    var url = Uri.parse('$dataUrl/companies/${company.id}');
     var result = 'false';
     await http.delete(url).then((value) {
       print(value.body);
@@ -19,40 +18,49 @@ class CompanieRepository implements RepositoryCompanie {
   }
 
   @override
-  Future<List<Companie>> getCompagnieOrderers() async {
-    List<Companie> companieList = [];
-    var url = Uri.parse('$dataUrl/companies');
+  Future<List<Company>> getCompanyOrderers() async {
+    List<Company> companieList = [];
+    var url = Uri.parse('$dataUrl/companies?size=500');
     var response = await http.get(url);
-    print('status code code : ${response.statusCode}');
     var body = json.decode(utf8.decode(response.bodyBytes));
     var orderer = body['_embedded']['orderers'];
 
     for (var i = 0; i < orderer.length; i++) {
-      companieList.add(Companie.fromJson(orderer[i]));
+      companieList.add(Company.fromJson(orderer[i]));
     }
     return companieList;
   }
 
   @override
-  Future<List<Companie>> getCompagnieProviders() async {
-    List<Companie> companieList = [];
-    var url = Uri.parse('$dataUrl/companies');
+  Future<List<Company>> getCompanyProviders() async {
+    List<Company> companieList = [];
+    var url = Uri.parse('$dataUrl/companies?size=500');
     var response = await http.get(url);
-    print('status code code : ${response.statusCode}');
     var body = json.decode(utf8.decode(response.bodyBytes));
     var provider = body['_embedded']['providers'];
 
     for (var i = 0; i < provider.length; i++) {
-      companieList.add(Companie.fromJson(provider[i]));
+      companieList.add(Company.fromJson(provider[i]));
     }
     return companieList;
   }
 
   @override
-  Future<String> postCompagnie(Companie companie) async {
-    print('${companie.toJson()}');
+  Future<Company> getCompanyById(int companyId) async {
+    Company company;
+    var url = Uri.parse('$dataUrl/companies/$companyId');
+    var response = await http.get(url);
+    var body = json.decode(utf8.decode(response.bodyBytes));
+    company = Company.fromJson(body);
+
+    return company;
+  }
+
+  @override
+  Future<String> postCompany(Company company) async {
+    print('${company.toJson()}');
     var url = Uri.parse('$dataUrl/companies');
-    var response = await http.post(url, body: companie.toJson());
+    var response = await http.post(url, body: company.toJson());
     print(response.statusCode);
     print(response.body);
     return 'true';

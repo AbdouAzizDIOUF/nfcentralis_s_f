@@ -67,7 +67,7 @@ class RouteGenerator {
       case '/detail-client':
         return MaterialPageRoute(
             builder: (context) => DetailClientScreen(
-                  companyId: args,
+                  clientId: args,
                 ));
 
       case '/detail-intervention':

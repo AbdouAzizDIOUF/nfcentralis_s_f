@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:nfcentralis/components/company_card.dart';
 import 'package:nfcentralis/components/header.dart';
+import 'package:nfcentralis/components/loading_spinner.dart';
 import 'package:nfcentralis/components/search_widget.dart';
 import 'package:nfcentralis/constants.dart';
-import 'package:nfcentralis/models_test_debug_solo/company.dart';
+import 'package:nfcentralis/controllers/company_controller.dart';
+import 'package:nfcentralis/models/company.dart';
+import 'package:nfcentralis/repository/company_repository.dart';
 import 'package:nfcentralis/responsive.dart';
 
 class ListOrderer extends StatefulWidget {
@@ -15,13 +18,14 @@ class ListOrderer extends StatefulWidget {
 
 class ListOrdererState extends State<ListOrderer> {
   late List companyListFiltered;
+  late List companyListFull;
   String query = '';
+  int loaded = 0;
+  var providerController = CompanyController(CompanyRepository());
 
   @override
   void initState() {
     super.initState();
-
-    companyListFiltered = companyList;
   }
 
   @override
@@ -45,18 +49,38 @@ class ListOrdererState extends State<ListOrderer> {
                         text: query,
                         onChanged: filterList,
                         hintText: "Rechercher"),
-                    ListView.separated(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        padding: const EdgeInsets.all(8),
-                        separatorBuilder: (BuildContext context, i) =>
-                            const SizedBox(height: defaultPadding),
-                        itemCount: companyListFiltered.length,
-                        itemBuilder: (BuildContext context, index) {
-                          final company = companyListFiltered[index];
+                    FutureBuilder<List>(
+                        future: providerController.fetchCompanieOrdererList(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                                  ConnectionState.waiting &&
+                              loaded == 0) {
+                            return Column(
+                              children: const [
+                                SizedBox(height: defaultPadding),
+                                Center(child: LoadingSpinner()),
+                              ],
+                            );
+                          }
+                          loaded += 1;
+                          if (snapshot.hasError) {
+                            return const Center(child: Text('error'));
+                          }
+                          companyListFiltered = snapshot.data!;
+                          companyListFull = snapshot.data!;
+                          return ListView.separated(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              padding: const EdgeInsets.all(8),
+                              separatorBuilder: (BuildContext context, i) =>
+                                  const SizedBox(height: defaultPadding),
+                              itemCount: companyListFiltered.length,
+                              itemBuilder: (BuildContext context, index) {
+                                final company = companyListFiltered[index];
 
-                          return buildCompany(company);
-                        })
+                                return buildCompany(company);
+                              });
+                        }),
                   ],
                 ))
               ],
@@ -75,14 +99,15 @@ class ListOrdererState extends State<ListOrderer> {
         city: company.city!,
         zipcode: company.zipcode!,
         press: () {
-          Navigator.pushNamed(context, '/detail-orderer', arguments: company);
+          Navigator.pushNamed(context, '/detail-orderer',
+              arguments: company.id);
         },
         //pressDelete: () {},
         //pressEdit: () {}
       );
 
   void filterList(String query) {
-    final list = companyList.where((c) {
+    final list = companyListFull.where((c) {
       final nameLower = c.name.toLowerCase();
       final cityLower = c.city.toLowerCase();
       final zipcodeLower = c.zipcode.toLowerCase();

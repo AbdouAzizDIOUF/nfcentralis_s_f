@@ -1,3 +1,6 @@
+import 'package:nfcentralis/models/company.dart';
+import 'package:nfcentralis/models/role.dart';
+
 class Utilisateur {
   int? id;
   String? firstName;
@@ -5,6 +8,8 @@ class Utilisateur {
   String? email;
   String? mobile;
   String? userName;
+  List<Role>? role;
+  Company? company;
 
   Utilisateur({
     required this.id,
@@ -13,6 +18,8 @@ class Utilisateur {
     required this.email,
     required this.mobile,
     required this.userName,
+    this.role,
+    this.company,
   });
 
   Utilisateur.fromJson(Map<String, dynamic> json) {
@@ -22,6 +29,12 @@ class Utilisateur {
     lastName = json['lastName'];
     mobile = json['mobile'];
     userName = json['userName'];
+    if (json["company"] != null) {
+      role = List<Role>.from(json["roles"].map((x) => Role.fromJsonName(x)));
+    }
+    if (json["company"] != null) {
+      company = Company.fromJson(json["company"]);
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -32,6 +45,7 @@ class Utilisateur {
     data['lastName'] = lastName.toString();
     data['userName'] = userName.toString();
     data['mobile'] = mobile.toString();
+    List<dynamic>.from(role!.map((x) => x.toJson()));
     return data;
   }
 }

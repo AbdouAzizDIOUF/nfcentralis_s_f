@@ -1,4 +1,4 @@
-import 'package:nfcentralis/models/companie.dart';
+import 'package:nfcentralis/models/company.dart';
 import 'package:nfcentralis/models/role.dart';
 import 'package:nfcentralis/models/utilisateur.dart';
 import 'package:nfcentralis/repository/repository.dart';
@@ -11,6 +11,10 @@ class UtilisateurController {
   //get
   Future<List<Utilisateur>> fetchUtilisateurList() async {
     return _repository.getUtilisateur();
+  }
+
+  Future<List<Utilisateur>> getUtilisateurOfCompany(int userId) async {
+    return _repository.getUtilisateurOfCompany(userId);
   }
 
   //put
@@ -32,7 +36,7 @@ class UtilisateurController {
     return _repository.getUtilisateurById(userId);
   }
 
-  Future<Companie> getUtilisateurCompany(int userId) async {
+  Future<Company> getUtilisateurCompany(int userId) async {
     return _repository.getUtilisateurCompany(userId);
   }
 

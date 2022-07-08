@@ -21,3 +21,5 @@ const String invalidPhoneNumberError = "Entrez un numéro valide";
 const String shortPassswordError =
     "Le mot de passe doit contenir au moins 8 caractères";
 const String matchPasswordError = "Les mots de passe sont différents";
+
+const String dataUrl = "http://localhost:8888";

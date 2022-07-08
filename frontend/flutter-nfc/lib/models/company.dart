@@ -1,15 +1,15 @@
-class Companie {
+class Company {
   int? id;
   String? adress;
   String? city;
   String? email;
   String? name;
-  int? phone;
+  String? phone;
   String? zipcode;
   String? description;
   String? logo;
 
-  Companie({
+  Company({
     required this.id,
     required this.adress,
     required this.city,
@@ -21,7 +21,7 @@ class Companie {
     required this.logo,
   });
 
-  Companie.fromJson(Map<String, dynamic> json) {
+  Company.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     adress = json['adress'];
     city = json['city'];

@@ -33,7 +33,7 @@ class CompanyCard extends StatelessWidget {
               Stack(alignment: Alignment.bottomLeft, children: [
                 Ink.image(
                   height: 130,
-                  image: AssetImage(logo!),
+                  image: NetworkImage(logo!),
                   fit: BoxFit.fitWidth,
                   colorFilter: ColorFilter.mode(
                       Colors.black.withOpacity(0.5), BlendMode.dstATop),

@@ -12,6 +12,7 @@ import 'package:nfcentralis/models_test_debug_solo/role.dart';
 import 'package:nfcentralis/models_test_debug_solo/user.dart';
 import 'package:nfcentralis/repository/utilisateur_repository.dart';
 import 'package:nfcentralis/responsive.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ListUser extends StatefulWidget {
   const ListUser({Key? key}) : super(key: key);
@@ -22,6 +23,7 @@ class ListUser extends StatefulWidget {
 
 class ListUserState extends State<ListUser> {
   late List userListFiltered = [];
+  late int userId = -1;
   String query = '';
   int loaded = 0;
   var userController = UtilisateurController(UtilisateurRepository());
@@ -29,6 +31,14 @@ class ListUserState extends State<ListUser> {
   @override
   void initState() {
     super.initState();
+    getCred();
+  }
+
+  void getCred() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      userId = pref.getInt("id") ?? -1;
+    });
   }
 
   @override
@@ -52,8 +62,8 @@ class ListUserState extends State<ListUser> {
                         text: query,
                         onChanged: filterList,
                         hintText: "Rechercher"),
-                    FutureBuilder<List<Utilisateur>>(
-                        future: userController.fetchUtilisateurList(),
+                    FutureBuilder<List>(
+                        future: userController.getUtilisateurOfCompany(userId),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                                   ConnectionState.waiting &&
@@ -100,7 +110,7 @@ class ListUserState extends State<ListUser> {
       email: user.email!,
       userName: user.userName!,
       mobile: user.mobile!,
-      role: 't',
+      role: user.role![0].name,
       // role: user.role.name,
       press: () {
         Navigator.pushNamed(context, '/detail-user', arguments: user.id);

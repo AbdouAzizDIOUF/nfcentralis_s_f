@@ -2,10 +2,9 @@ import 'package:nfcentralis/models/etape.dart';
 import 'package:nfcentralis/repository/repository.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:nfcentralis/constants.dart';
 
 class EtapeRepository implements RepositoryEtape {
-  String dataUrl = "http://localhost:8888";
-
   @override
   Future<String> deleteEtape(Etape etape) async {
     var url = Uri.parse('$dataUrl/etapes/${etape.id}');

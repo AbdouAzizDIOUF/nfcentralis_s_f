@@ -2,27 +2,27 @@ import 'package:nfcentralis/models/etape.dart';
 import 'package:nfcentralis/repository/repository.dart';
 
 class EtapeController {
-  final RepositoryEtape _repersitory;
+  final RepositoryEtape _repository;
 
-  EtapeController(this._repersitory);
+  EtapeController(this._repository);
 
   //get
   Future<List> fetchEtapeList() async {
-    return _repersitory.getEtape();
+    return _repository.getEtape();
   }
 
   //put
   Future<String> updatePutCompleted(Etape etape) async {
-    return _repersitory.putCompleted(etape);
+    return _repository.putCompleted(etape);
   }
 
   //delete
   Future<String> deleteEtape(Etape etape) async {
-    return _repersitory.deleteEtape(etape);
+    return _repository.deleteEtape(etape);
   }
 
   //post
   Future<String> postEtape(Etape etape) async {
-    return _repersitory.postEtape(etape);
+    return _repository.postEtape(etape);
   }
 }

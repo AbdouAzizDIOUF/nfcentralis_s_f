@@ -1,13 +1,12 @@
-import 'package:nfcentralis/models/companie.dart';
+import 'package:nfcentralis/models/company.dart';
 import 'package:nfcentralis/models/role.dart';
 import 'package:nfcentralis/models/utilisateur.dart';
 import 'package:nfcentralis/repository/repository.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:nfcentralis/constants.dart';
 
 class UtilisateurRepository implements RepositoryUtilisateur {
-  String dataUrl = "http://localhost:8888";
-
   @override
   Future<String> deleteUtilisateur(Utilisateur utilisateur) async {
     var url = Uri.parse('$dataUrl/utilisateurs/${utilisateur.id}');
@@ -23,13 +22,30 @@ class UtilisateurRepository implements RepositoryUtilisateur {
   @override
   Future<List<Utilisateur>> getUtilisateur() async {
     List<Utilisateur> utilisateurList = [];
-    var url = Uri.parse('$dataUrl/utilisateurs');
+    var url = Uri.parse('$dataUrl/utilisateurs?size=500');
     var response = await http.get(url);
     var body = json.decode(utf8.decode(response.bodyBytes));
     var utilisateur = body["_embedded"]["utilisateurs"];
 
     for (var i = 0; i < utilisateur.length; i++) {
       utilisateurList.add(Utilisateur.fromJson(utilisateur[i]));
+    }
+    return utilisateurList;
+  }
+
+  @override
+  Future<List<Utilisateur>> getUtilisateurOfCompany(int userId) async {
+    List<Utilisateur> utilisateurList = [];
+    var url = Uri.parse('$dataUrl/utilisateurs/$userId/company');
+    var response = await http.get(url);
+    var body = json.decode(utf8.decode(response.bodyBytes));
+    var utilisateur = body["_embedded"]["utilisateurs"];
+    print(utilisateur);
+
+    for (var i = 0; i < utilisateur.length; i++) {
+      if (utilisateur[i]["id"] != userId) {
+        utilisateurList.add(Utilisateur.fromJson(utilisateur[i]));
+      }
     }
     return utilisateurList;
   }
@@ -57,12 +73,12 @@ class UtilisateurRepository implements RepositoryUtilisateur {
   }
 
   @override
-  Future<Companie> getUtilisateurCompany(int userId) async {
-    Companie companie;
+  Future<Company> getUtilisateurCompany(int userId) async {
+    Company companie;
     var url = Uri.parse('$dataUrl/utilisateurs/$userId/company');
     var response = await http.get(url);
     var body = json.decode(utf8.decode(response.bodyBytes));
-    companie = Companie.fromJson(body);
+    companie = Company.fromJson(body);
 
     return companie;
   }

@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:nfcentralis/models_test_debug_solo/company.dart';
+import 'package:nfcentralis/models/company.dart';
 
 class DetailProvider extends StatefulWidget {
   final Company company;
@@ -31,20 +31,11 @@ class DetailProviderState extends State<DetailProvider> {
           },
           child: ListView(
             children: [
-              Container(
+              SizedBox(
                 width: 100,
                 height: 100,
-                child: Image.asset(
+                child: Image.network(
                   widget.company.logo!,
-                ),
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        spreadRadius: 2,
-                        blurRadius: 10,
-                        color: Colors.black.withOpacity(0.1),
-                        offset: const Offset(0, 10))
-                  ],
                 ),
               ),
               const SizedBox(

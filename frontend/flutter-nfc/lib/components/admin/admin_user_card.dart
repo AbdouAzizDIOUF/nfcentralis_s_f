@@ -31,7 +31,7 @@ class AdminUserCard extends StatelessWidget {
         onTap: press,
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
+          children: [
             ListTile(
               leading: ProfilePicture(
                 name: lastName + " " + firstName,
@@ -47,61 +47,133 @@ class AdminUserCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   )),
             ),
-            ListTile(
-              leading: const Icon(
-                Icons.email,
-                color: Colors.white70,
-              ),
-              title: Text(email,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.white70,
-                    fontWeight: FontWeight.normal,
-                  )),
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.call,
-                color: Colors.white70,
-              ),
-              title: Text(mobile,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.white70,
-                    fontWeight: FontWeight.normal,
-                  )),
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.shield,
-                color: Colors.white70,
-              ),
-              title: Text(role!,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.white70,
-                    fontWeight: FontWeight.normal,
-                  )),
-            ),
-            const Divider(
-              thickness: 2,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                TextButton(
-                  child: const Icon(Icons.delete,
-                      color: Colors.redAccent, size: 20),
-                  onPressed: pressDelete,
-                ),
-                const SizedBox(width: 8),
-                TextButton(
-                  child: const Icon(Icons.edit,
-                      color: Colors.yellowAccent, size: 20),
-                  onPressed: pressEdit,
-                ),
-              ],
-            ),
+            Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    ListTile(
+                      leading: const Icon(
+                        Icons.email,
+                        color: Colors.white70,
+                      ),
+                      title: Text(email,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.white70,
+                            fontWeight: FontWeight.normal,
+                          )),
+                    ),
+                    ListTile(
+                      leading: const Icon(
+                        Icons.call,
+                        color: Colors.white70,
+                      ),
+                      title: Text(mobile,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.white70,
+                            fontWeight: FontWeight.normal,
+                          )),
+                    ),
+                    ListTile(
+                      leading: const Icon(
+                        Icons.shield,
+                        color: Colors.white70,
+                      ),
+                      title: Text(role!,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.white70,
+                            fontWeight: FontWeight.normal,
+                          )),
+                    ),
+                    const Divider(
+                      thickness: 2,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        ElevatedButton(
+                          onPressed: pressEdit,
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                ),
+                              ),
+                              backgroundColor:
+                                  MaterialStateProperty.resolveWith<Color>(
+                                      (Set<MaterialState> states) {
+                                if (states.contains(MaterialState.pressed)) {
+                                  return thirdColorLight;
+                                }
+                                return thirdColorLight; // Use the component's default.
+                              })),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Icon(
+                                // <-- Icon
+                                Icons.edit,
+                                color: Colors.black,
+                                size: 24.0,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                'Éditer',
+                                style: TextStyle(color: Colors.black),
+                              ), // <-- Text
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        ElevatedButton(
+                          onPressed: pressDelete,
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(29.0),
+                                ),
+                              ),
+                              backgroundColor:
+                                  MaterialStateProperty.resolveWith<Color>(
+                                      (Set<MaterialState> states) {
+                                if (states.contains(MaterialState.pressed)) {
+                                  return Colors.redAccent;
+                                }
+                                return Colors
+                                    .redAccent; // Use the component's default.
+                              })),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Icon(
+                                // <-- Icon
+                                Icons.delete,
+                                color: Colors.black,
+                                size: 24.0,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                'Supprimer',
+                                style: TextStyle(color: Colors.black),
+                              ), // <-- Text
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ))
           ],
         ),
       ),

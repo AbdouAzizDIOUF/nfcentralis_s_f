@@ -2,10 +2,9 @@ import 'package:nfcentralis/models/provider.dart';
 import 'package:nfcentralis/repository/repository.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:nfcentralis/constants.dart';
 
 class ProviderRepository implements RepositoryProvider {
-  String dataUrl = "http://localhost:8888";
-
   @override
   Future<String> deleteProvider(Provider provider) async {
     var url = Uri.parse('$dataUrl/providers/${provider.id}');

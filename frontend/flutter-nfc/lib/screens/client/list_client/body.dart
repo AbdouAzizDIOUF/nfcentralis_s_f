@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:nfcentralis/components/company_card.dart';
+import 'package:nfcentralis/components/loading_spinner.dart';
 import 'package:nfcentralis/components/search_widget.dart';
 import 'package:nfcentralis/constants.dart';
-import 'package:nfcentralis/models_test_debug_solo/company.dart';
+import 'package:nfcentralis/controllers/client_controller.dart';
 import 'package:nfcentralis/components/header.dart';
+import 'package:nfcentralis/models/client.dart';
+import 'package:nfcentralis/repository/client_repository.dart';
 import 'package:nfcentralis/responsive.dart';
 
 class ListClient extends StatefulWidget {
@@ -14,14 +17,15 @@ class ListClient extends StatefulWidget {
 }
 
 class ListClientState extends State<ListClient> {
-  late List companyListFiltered;
+  late List clientListFiltered = [];
+  late List clientListFull = [];
   String query = '';
+  int loaded = 0;
+  var clientController = ClientController(ClientRepository());
 
   @override
   void initState() {
     super.initState();
-
-    companyListFiltered = companyList;
   }
 
   @override
@@ -45,18 +49,39 @@ class ListClientState extends State<ListClient> {
                           text: query,
                           onChanged: filterList,
                           hintText: "Rechercher"),
-                      ListView.separated(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          padding: const EdgeInsets.all(8),
-                          separatorBuilder: (BuildContext context, i) =>
-                              const SizedBox(height: defaultPadding),
-                          itemCount: companyListFiltered.length,
-                          itemBuilder: (BuildContext context, index) {
-                            final company = companyListFiltered[index];
+                      FutureBuilder<List>(
+                          future: clientController.fetchClientList(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                    ConnectionState.waiting &&
+                                loaded == 0) {
+                              return Column(
+                                children: const [
+                                  SizedBox(height: defaultPadding),
+                                  Center(child: LoadingSpinner()),
+                                ],
+                              );
+                            }
+                            loaded += 1;
+                            if (snapshot.hasError) {
+                              return const Center(child: Text('error'));
+                            }
+                            clientListFiltered = snapshot.data!;
+                            clientListFull = snapshot.data!;
+                            return ListView.separated(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              padding: const EdgeInsets.all(8),
+                              separatorBuilder: (BuildContext context, i) =>
+                                  const SizedBox(height: defaultPadding),
+                              itemCount: clientListFiltered.length,
+                              itemBuilder: (BuildContext context, index) {
+                                final client = clientListFiltered[index];
 
-                            return buildCompany(company);
-                          })
+                                return buildCompany(client);
+                              },
+                            );
+                          }),
                     ],
                   ),
                 )
@@ -68,22 +93,22 @@ class ListClientState extends State<ListClient> {
     );
   }
 
-  Widget buildCompany(Company company) => CompanyCard(
-        name: company.name!,
-        description: company.description!,
-        logo: company.logo!,
-        adress: company.adress!,
-        city: company.city!,
-        zipcode: company.zipcode!,
+  Widget buildCompany(Client client) => CompanyCard(
+        name: client.name!,
+        description: client.description!,
+        logo: "assets/logo/logo_NFC_hor.png",
+        adress: client.adress!,
+        city: client.city!,
+        zipcode: client.zipcode!,
         press: () {
-          Navigator.pushNamed(context, '/detail-client', arguments: company);
+          Navigator.pushNamed(context, '/detail-client', arguments: client.id);
         },
         //pressDelete: () {},
         //pressEdit: () {}
       );
 
   void filterList(String query) {
-    final list = companyList.where((c) {
+    final list = clientListFull.where((c) {
       final nameLower = c.name.toLowerCase();
       final cityLower = c.city.toLowerCase();
       final zipcodeLower = c.zipcode.toLowerCase();
@@ -96,7 +121,7 @@ class ListClientState extends State<ListClient> {
 
     setState(() {
       this.query = query;
-      companyListFiltered = list;
+      clientListFiltered = list;
     });
   }
 }

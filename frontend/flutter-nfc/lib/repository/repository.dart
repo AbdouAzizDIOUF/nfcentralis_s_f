@@ -1,7 +1,7 @@
 import 'package:nfcentralis/models/client.dart';
 import 'package:nfcentralis/models/intervention.dart';
 import 'package:nfcentralis/models/provider.dart';
-import 'package:nfcentralis/models/companie.dart';
+import 'package:nfcentralis/models/company.dart';
 import 'package:nfcentralis/models/role.dart';
 import 'package:nfcentralis/models/utilisateur.dart';
 import 'package:nfcentralis/models/etape.dart';
@@ -30,15 +30,17 @@ abstract class RepositoryProvider {
   Future<String> putCompleted(Provider provider);
 }
 
-abstract class RepositoryCompanie {
+abstract class RepositoryCompany {
   // get
-  Future<List> getCompagnieOrderers();
+  Future<List<Company>> getCompanyOrderers();
 
-  Future<List> getCompagnieProviders();
+  Future<List<Company>> getCompanyProviders();
+
+  Future<Company> getCompanyById(int companyId);
   //delete
-  Future<String> deleteCompagnie(Companie compagnie);
+  Future<String> deleteCompany(Company company);
   //post
-  Future<String> postCompagnie(Companie compagnie);
+  Future<String> postCompany(Company company);
   //put
   // Future<String> putCompleted(Companie compagnie);
 }
@@ -46,6 +48,8 @@ abstract class RepositoryCompanie {
 abstract class RepositoryUtilisateur {
   // get
   Future<List<Utilisateur>> getUtilisateur();
+
+  Future<List<Utilisateur>> getUtilisateurOfCompany(int userId);
   //delete
   Future<String> deleteUtilisateur(Utilisateur utilisateur);
   //post
@@ -55,7 +59,7 @@ abstract class RepositoryUtilisateur {
 
   Future<Utilisateur> getUtilisateurById(int userId);
 
-  Future<Companie> getUtilisateurCompany(int userId);
+  Future<Company> getUtilisateurCompany(int userId);
 
   Future<Role> getUtilisateurRole(int userId);
 }
@@ -86,4 +90,14 @@ abstract class RepositoryRole {
   Future<List<Role>> getRoles();
 
   Future<Role> getRoleById(int roleId);
+}
+
+abstract class RepositoryClient {
+  Future<Client> getClientById(int clientId);
+
+  Future<List> getClient();
+
+  Future<String> deleteClient(Client client);
+
+  Future<String> postClient(Client client);
 }

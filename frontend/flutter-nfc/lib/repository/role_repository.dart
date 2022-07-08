@@ -2,10 +2,9 @@ import 'package:nfcentralis/models/role.dart';
 import 'package:nfcentralis/repository/repository.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:nfcentralis/constants.dart';
 
 class RoleRepository implements RepositoryRole {
-  String dataUrl = "http://localhost:8888";
-
   @override
   Future<List<Role>> getRoles() async {
     List<Role> roleList = [];

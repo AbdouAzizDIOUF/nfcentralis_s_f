@@ -1,7 +1,7 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:nfcentralis/constants.dart';
 import 'package:nfcentralis/responsive.dart';
@@ -18,6 +18,23 @@ class Header extends StatefulWidget {
 }
 
 class HeaderState extends State<Header> {
+  String firstName = "";
+  String lastName = "";
+
+  @override
+  void initState() {
+    super.initState();
+    getCred();
+  }
+
+  void getCred() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      firstName = pref.getString("firstName") ?? "";
+      lastName = pref.getString("lastName") ?? "";
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -35,20 +52,24 @@ class HeaderState extends State<Header> {
           ),
         if (!Responsive.isMobile(context))
           Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
-        const Expanded(child: SearchField()),
-        const ProfileCard()
+        // const Expanded(child: SearchField()),
+        ProfileCard(lastName: lastName, firstName: firstName)
       ],
     );
   }
 }
 
 class ProfileCard extends StatelessWidget {
+  final String? firstName, lastName;
   const ProfileCard({
     Key? key,
+    required this.lastName,
+    required this.firstName,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var name = lastName! + " " + firstName!;
     return Container(
       margin: const EdgeInsets.only(left: defaultPadding),
       padding: const EdgeInsets.symmetric(
@@ -56,16 +77,17 @@ class ProfileCard extends StatelessWidget {
         vertical: defaultPadding / 2,
       ),
       child: Row(children: [
-        const ProfilePicture(
-          name: "CERSEI LANNISTER",
+        ProfilePicture(
+          name: name,
           radius: 30,
           fontsize: 21,
           tooltip: true,
         ),
         if (!Responsive.isMobile(context))
-          const Padding(
-              padding: EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-              child: Text("Emmanuella AHONDJON")),
+          Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
+              child: Text(name)),
       ]),
     );
   }

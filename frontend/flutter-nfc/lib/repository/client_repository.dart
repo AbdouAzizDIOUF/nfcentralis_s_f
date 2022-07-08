@@ -2,16 +2,14 @@ import 'package:nfcentralis/models/client.dart';
 import 'package:nfcentralis/repository/repository.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:nfcentralis/constants.dart';
 
-class ClientRepository implements Repository {
-  String dataUrl = "http://localhost:8888";
-
+class ClientRepository implements RepositoryClient {
   @override
   Future<String> deleteClient(Client client) async {
     var url = Uri.parse('$dataUrl/clients/${client.id}');
     var result = 'false';
     await http.delete(url).then((value) {
-      print(value.body);
       //temp
       return result = 'true';
     });
@@ -21,21 +19,25 @@ class ClientRepository implements Repository {
   @override
   Future<List> getClient() async {
     List clientList = [];
-    var url = Uri.parse('$dataUrl/clients');
+    var url = Uri.parse('$dataUrl/clients?size=500');
     var response = await http.get(url);
-    print('status code code : ${response.statusCode}');
     var body = json.decode(utf8.decode(response.bodyBytes));
     var client = body['_embedded']['clients'];
-    for (var i = 0; i < client; i++) {
-      clientList.add(Client.fromJson(client[i]));
+    for (var i = 0; i < client.length; i++) {
+      clientList.add(Client.fromJsonWithInstallationAndUser(client[i]));
     }
     return clientList;
   }
 
   @override
-  Future<String> patchCompleted(Client client) {
-    // TODO: implement patchCompleted
-    throw UnimplementedError();
+  Future<Client> getClientById(int clientId) async {
+    Client client;
+    var url = Uri.parse('$dataUrl/clients/$clientId');
+    var response = await http.get(url);
+    var body = json.decode(utf8.decode(response.bodyBytes));
+    client = Client.fromJson(body);
+
+    return client;
   }
 
   @override
@@ -43,8 +45,6 @@ class ClientRepository implements Repository {
     print('${client.toJson()}');
     var url = Uri.parse('$dataUrl/clients/');
     var response = await http.post(url, body: client.toJson());
-    print(response.statusCode);
-    print(response.body);
     return 'true';
   }
 

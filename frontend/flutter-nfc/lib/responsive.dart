@@ -39,7 +39,7 @@ class Responsive extends StatelessWidget {
 
 void setPageTitle(String title, BuildContext context) {
   SystemChrome.setApplicationSwitcherDescription(ApplicationSwitcherDescription(
-    label: title + ' - NFCentralis',
+    label: title + ' | NFCentralis',
     primaryColor: Theme.of(context).primaryColor.value,
   ));
 }

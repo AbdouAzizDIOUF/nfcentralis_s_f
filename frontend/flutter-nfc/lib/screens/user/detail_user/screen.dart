@@ -1,8 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:nfcentralis/components/loading_spinner.dart';
-import 'package:nfcentralis/components/snackbar_message.dart';
 
 import 'package:nfcentralis/constants.dart';
 import 'package:nfcentralis/controllers/utilisateur_controller.dart';
@@ -40,15 +38,6 @@ class DetailUserScreenState extends State<DetailUserScreen> {
             );
           }
           if (snapshot.hasError) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              elevation: 0,
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Colors.transparent,
-              content: SnackBarMessage(
-                message: "Erreur lors de l'acquisition de données",
-                contentType: ContentType.failure,
-              ),
-            ));
             return const Center(
               child: Text('Erreur'),
             );
