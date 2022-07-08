@@ -1,7 +1,13 @@
 package com.example.springnfc.payload.response;
 
+import com.example.springnfc.entity.Company;
+import lombok.Data;
+import lombok.ToString;
+
 import java.util.List;
 
+@Data
+@ToString
 public class JwtResponse {
   private String token;
   private String type = "Bearer";
@@ -11,11 +17,12 @@ public class JwtResponse {
   private String firstName;
   private String lastName;
   private String mobile;
+  private Company company;
 
   private List<String> roles;
 
   public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles,
-                     String firstName, String lastName, String mobile) {
+                     String firstName, String lastName, String mobile, Company company) {
     this.token = accessToken;
     this.id = id;
     this.username = username;
@@ -24,6 +31,7 @@ public class JwtResponse {
     this.firstName = firstName;
     this.lastName= lastName;
     this.mobile = mobile;
+    this.company = company;
   }
 
   public String getAccessToken() {

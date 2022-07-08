@@ -1,7 +1,11 @@
 package com.example.springnfc.security.services;
 
+import com.example.springnfc.entity.Company;
+import com.example.springnfc.entity.Provider;
 import com.example.springnfc.entity.Utilisateur;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +15,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Data @ToString
 public class UserDetailsImpl implements UserDetails {
   private static final long serialVersionUID = 1L;
 
@@ -26,6 +31,7 @@ public class UserDetailsImpl implements UserDetails {
   private String firstName;
   private String lastName;
   private String userName;
+  private Company company;
 
 
 
@@ -35,7 +41,7 @@ public class UserDetailsImpl implements UserDetails {
 
   public UserDetailsImpl(Long id, String username, String email, String password,
                          String firstName, String lastName, String mobile,
-      Collection<? extends GrantedAuthority> authorities) {
+                         Company company, Collection<? extends GrantedAuthority> authorities) {
     this.id = id;
     this.username = username;
     this.email = email;
@@ -44,6 +50,7 @@ public class UserDetailsImpl implements UserDetails {
     this.firstName = firstName;
     this.lastName= lastName;
     this.mobile = mobile;
+    this.company = company;
   }
 
 
@@ -60,6 +67,7 @@ public class UserDetailsImpl implements UserDetails {
         user.getFirstName(),
         user.getLastName(),
         user.getMobile(),
+        user.getCompany(),
         authorities);
 
   }

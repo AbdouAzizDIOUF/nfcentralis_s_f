@@ -33,11 +33,9 @@ public class Installation implements Serializable {
     private Date updatedAt;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
     private Client client;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
     private Utilisateur utilisateur;
 
     @OneToMany(mappedBy="installation")
