@@ -33,7 +33,8 @@ public class SpringNfcApplication implements CommandLineRunner {
             ProviderRepository providerRepository,
             UtilisateurRepository utilisateurRepository,
             ClientRepository clientRepository,
-            PasswordEncoder encoder, RoleRepository roleRepository, NFCentralisImpl nfCentralis, InterventionProviderRepository interventionProviderRepository)
+            PasswordEncoder encoder, RoleRepository roleRepository,
+            NFCentralisImpl nfCentralis, InterventionProviderRepository interventionProviderRepository)
     {
         this.ordererRepository = ordererRepository;
         this.providerRepository = providerRepository;
